@@ -45,7 +45,7 @@ Replace the version with any tag or commit published on JitPack.
 
 ```gradle
 dependencies {
-    implementation "com.github.WalkMe-int:walkme-android-sdk:0.0.5alpha"
+    implementation "com.github.WalkMe-int:walkme-android-sdk:0.0.8-beta"
 }
 ```
 
@@ -53,7 +53,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.WalkMe-int:walkme-android-sdk:0.0.5alpha")
+    implementation("com.github.WalkMe-int:walkme-android-sdk:0.0.8-beta")
 }
 ```
 
