@@ -63,7 +63,7 @@ dependencies {
 
 | API | Purpose |
 |-----|--------|
-| `start(activity, systemGuid, options, env, dataCenter)` | Initialize and show WalkMe for the current session. Call from a host `Activity`, usually in `onCreate` (or when the screen that should host WalkMe becomes active). |
+| `start(activity, options)` | Initialize and show WalkMe for the current session. Call from a host `Activity`, usually in `onCreate` (or when the screen that should host WalkMe becomes active). |
 | `stop()` | Tear down the SDK and release resources when your app no longer needs WalkMe. |
 | `setUserId(userId)` | Set or clear (`null`) the end-user id for segmentation, analytics, and support. |
 | `setLanguage(language)` | Set UI language where your WalkMe configuration supports it (requires the relevant admin option when applicable). |
@@ -71,23 +71,25 @@ dependencies {
 
 **Startup options**
 
-- `WalkMeStartOptions(analyticsEnabled = true)` — toggle analytics (default `true`).
+- `com.walkme.common.WalkMeStartOptions` — `systemGuid` (required), `env` (default `"Production"`), `dataCenter` ([WalkmeDataCenter]). Same type is used by the Power Mode SDK.
 
 **Example (Kotlin)**
 
 ```kotlin
+import com.walkme.common.WalkMeStartOptions
+import com.walkme.common.WalkmeDataCenter
 import com.walkme.sdk.WalkMeSDK
-import com.walkme.sdk.WalkMeStartOptions
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WalkMeSDK.start(
-            activity = this,
-            systemGuid = "<YOUR_SYSTEM_GUID>",
-            options = WalkMeStartOptions(analyticsEnabled = true),
-            env = "Production",
-            dataCenter = "prod"
+            this,
+            WalkMeStartOptions(
+                systemGuid = "<YOUR_SYSTEM_GUID>",
+                env = "Production",
+                dataCenter = WalkmeDataCenter.Prod,
+            ),
         )
     }
 
@@ -98,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-Adjust `env` and `dataCenter` to match your WalkMe environment (for example `"prod-eu"` if your project uses EU data residency).
+Adjust `env` and `dataCenter` to match your WalkMe environment (for example `WalkmeDataCenter.Eu` for EU, or `WalkmeDataCenter.Custom("…")` for other backend values).
 
 ## 4. Integration checklist
 

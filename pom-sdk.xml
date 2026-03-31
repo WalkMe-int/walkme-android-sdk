@@ -3,9 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.WalkMe-int</groupId>
   <artifactId>walkme-android-sdk</artifactId>
-  <version>0.0.5alpha</version>
+  <version>0.0.6alpha</version>
   <packaging>aar</packaging>
   <dependencies>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-parcelize-runtime</artifactId>
+      <version>2.2.0</version>
+    </dependency>
     <dependency>
       <groupId>androidx.appcompat</groupId>
       <artifactId>appcompat</artifactId>
@@ -37,11 +42,6 @@
       <version>1.15.0</version>
     </dependency>
     <dependency>
-      <groupId>com.github.WalkMe-int</groupId>
-      <artifactId>walkme-android-sdk-common</artifactId>
-      <version>0.0.7alpha</version>
-    </dependency>
-    <dependency>
       <groupId>io.insert-koin</groupId>
       <artifactId>koin-core</artifactId>
       <version>3.5.6</version>
@@ -50,6 +50,11 @@
       <groupId>io.insert-koin</groupId>
       <artifactId>koin-android</artifactId>
       <version>3.5.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.WalkMe-int</groupId>
+      <artifactId>walkme-android-sdk-common</artifactId>
+      <version>0.0.8alpha</version>
     </dependency>
   </dependencies>
 </project>
