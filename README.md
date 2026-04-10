@@ -45,7 +45,7 @@ Replace the version with any tag or commit published on JitPack.
 
 ```gradle
 dependencies {
-    implementation "com.github.WalkMe-int:walkme-android-sdk:0.0.8-beta"
+    implementation "com.github.WalkMe-int:walkme-android-sdk:0.1.3-beta"
 }
 ```
 
@@ -53,7 +53,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.WalkMe-int:walkme-android-sdk:0.0.8-beta")
+    implementation("com.github.WalkMe-int:walkme-android-sdk:0.1.3-beta")
 }
 ```
 
@@ -61,13 +61,15 @@ dependencies {
 
 **Package:** `com.walkme.sdk`
 
-| API | Purpose |
-|-----|--------|
+| API | Purpose                                                                                                                                                             |
+|-----|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `start(activity, options)` | Initialize and show WalkMe for the current session. Call from a host `Activity`, usually in `onCreate` (or when the screen that should host WalkMe becomes active). |
-| `stop()` | Tear down the SDK and release resources when your app no longer needs WalkMe. |
-| `setUserId(userId)` | Set or clear (`null`) the end-user id for segmentation, analytics, and support. |
-| `setLanguage(language)` | Set UI language where your WalkMe configuration supports it (requires the relevant admin option when applicable). |
-| `setUserAttribute(key, value)` | Set a custom user attribute; pass `null` for `value` to clear. |
+| `stop()` | Tear down the SDK and release resources when your app no longer needs WalkMe.                                                                                       |
+| `setUserId(userId)` | Set or clear (`null`) the end-user id for segmentation, analytics, and support.                                                                                     |
+| `setLanguage(language)` | Set UI language where your WalkMe configuration supports it (requires the relevant admin option when applicable).                                                   |
+| `setUserAttribute(key, value)` | Set a custom user attribute; pass `null` for `value` to clear.                                                                                                      |
+| `sendEvent(name, attributes)` | Sends a custom tracked event: name identifies the event, attributes is an optional map of key/value data.                                                           |
+
 
 **Startup options**
 
