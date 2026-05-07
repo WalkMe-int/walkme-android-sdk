@@ -45,7 +45,7 @@ Replace the version with any tag or commit published on JitPack.
 
 ```gradle
 dependencies {
-    implementation "com.github.WalkMe-int:walkme-android-sdk:0.1.5-beta"
+    implementation "com.github.WalkMe-int:walkme-android-sdk:0.1.6-beta"
 }
 ```
 
@@ -53,7 +53,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.WalkMe-int:walkme-android-sdk:0.1.5-beta")
+    implementation("com.github.WalkMe-int:walkme-android-sdk:0.1.6-beta")
 }
 ```
 
@@ -68,7 +68,7 @@ dependencies {
 | `stop()`                       | Tear down the SDK and release resources when your app no longer needs WalkMe.                                                                                       |
 | `setUserId(userId)`            | Set or clear (`null`) the end-user id for segmentation, analytics, and support.                                                                                     |
 | `setLanguage(language)`        | Set UI language where your WalkMe configuration supports it (requires the relevant admin option when applicable).                                                   |
-| `setUserAttribute(key, value)` | Set a custom user attribute; pass `null` for `value` to clear.                                                                                                      |
+| `setVariable(key, value)`      | Set a custom variable used by WalkMe rules and segments; pass `null` for `value` to clear.                                                                          |
 | `setEventUserVars(values)`     | Set keys for WalkMe **event** payloads (`userVars`). Pass a `Map<WalkMeEventUserVarsKey, String>`. Each call **merges** into the stored map (same key overwrites). Use `com.walkme.common.events.wm.WalkMeEventUserVarsKey` (`NAME`, `ROLE`, `TYPE`, `STATUS`, `INFO`). |
 | `startItemByID(itemId, deepLink?)` | Start a specific **promotion** by WalkMe `itemId`. If another promotion is already playing, it is stopped first. Optional `deepLink` is a URI string; when non-null and your app can resolve `ACTION_VIEW` for that URI (same package), the SDK opens it before playing the promotion. |
 | `sendEvent(name, attributes)`  | Sends a custom tracked event: name identifies the event, attributes is an optional map of key/value data.                                                           |
@@ -113,7 +113,7 @@ Adjust `environment` and `dataCenter` to match your WalkMe environment (for exam
 2. Add **`walkme-android-sdk`** with latest version.
 3. Obtain **`systemGuid`**, **`environment`**, and **`dataCenter`** from your WalkMe project / onboarding.
 4. Call **`start`** from an `Activity` when the host screen is ready; call **`stop`** when tearing down (for example in `onDestroy` or your logout flow—confirm with your WalkMe contact).
-5. Wire **`setUserId`** / **`setUserAttribute`** after login and clear on logout if your policy requires it.
+5. Wire **`setUserId`** / **`setVariable`** after login and clear on logout if your policy requires it.
 
 ---
 
