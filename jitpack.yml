@@ -1,2 +1,2 @@
 install:
-  - mvn install:install-file -Dfile=walkme-android-sdk.aar -DpomFile=pom-sdk.xml -DgroupId=com.github.WalkMe-int -DartifactId=walkme-android-sdk -Dversion=0.1.7-beta5 -Dpackaging=aar
+  - mvn install:install-file -Dfile=walkme-android-sdk.aar -DpomFile=pom-sdk.xml -DgroupId=com.github.WalkMe-int -DartifactId=walkme-android-sdk -Dversion=0.1.7-beta6 -Dpackaging=aar
