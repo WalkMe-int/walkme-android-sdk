@@ -45,7 +45,7 @@ Replace the version with any tag or commit published on JitPack.
 
 ```gradle
 dependencies {
-    implementation "com.github.WalkMe-int:walkme-android-sdk:0.1.8-beta2"
+    implementation "com.github.WalkMe-int:walkme-android-sdk:1.0.0"
 }
 ```
 
@@ -53,7 +53,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.WalkMe-int:walkme-android-sdk:0.1.8-beta2")
+    implementation("com.github.WalkMe-int:walkme-android-sdk:1.0.0")
 }
 ```
 
@@ -76,7 +76,27 @@ dependencies {
 
 **Startup options**
 
-- `com.walkme.api.WalkMeStartOptions` — `systemGuid` (required), `environment` (default `"Production"`), `dataCenter` ([WalkmeDataCenter]). Same type is used by the Power Mode SDK.
+`com.walkme.api.WalkMeStartOptions` — same type is used by the Power Mode SDK.
+
+| Option | Type | Default | Purpose |
+|--------|------|---------|---------|
+| `systemGuid` | `String` | — | WalkMe system GUID (required). |
+| `environment` | `String` | `"Production"` | Environment name (e.g. `"Production"`). |
+| `dataCenter` | `WalkmeDataCenter` | `prod` | Region — `prod`, `eu`, `us01`, `eu01`, or `Custom("…")`. |
+| `analyticsEnabled` | `Boolean` | `true` | When `false`, the SDK does not send analytics/events to WalkMe (including heartbeat). |
+| `localLogsEnabled` | `Boolean` | `false` | When `true`, SDK debug logs are written to Logcat (`WMLogger`). Use for troubleshooting only. |
+
+`analyticsEnabled` and `localLogsEnabled` are mutable properties (not constructor parameters). Set them on the options instance before calling `start`:
+
+```kotlin
+val options = WalkMeStartOptions(
+    systemGuid = "<YOUR_SYSTEM_GUID>",
+    environment = "Production",
+    dataCenter = WalkmeDataCenter.prod,
+)
+options.analyticsEnabled = true   // default
+options.localLogsEnabled = false  // default; set true for debug builds if needed
+```
 
 **Example (Kotlin)**
 
@@ -88,14 +108,12 @@ import com.walkme.sdk.WalkMeSDK
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WalkMeSDK.start(
-            this,
-            WalkMeStartOptions(
-                systemGuid = "<YOUR_SYSTEM_GUID>",
-                environment = "Production",
-                dataCenter = WalkmeDataCenter.prod,
-            ),
+        val options = WalkMeStartOptions(
+            systemGuid = "<YOUR_SYSTEM_GUID>",
+            environment = "Production",
+            dataCenter = WalkmeDataCenter.prod,
         )
+        WalkMeSDK.start(this, options)
     }
 
     override fun onDestroy() {
