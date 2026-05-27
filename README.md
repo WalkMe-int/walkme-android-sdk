@@ -4,7 +4,7 @@ Standard WalkMe mobile integration **without** Power Mode editor flows. Artifact
 
 ## Requirements
 
-- **Minimum SDK:** API **21+**
+- **Minimum SDK:** API **24+**
 - Use Android Gradle Plugin and Kotlin versions compatible with your chosen SDK release (follow release notes if provided).
 
 ## 1. Add the JitPack repository
