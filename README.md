@@ -45,7 +45,7 @@ Replace the version with any tag or commit published on JitPack.
 
 ```gradle
 dependencies {
-    implementation "com.github.WalkMe-int:walkme-android-sdk:1.2.4"
+    implementation "com.github.WalkMe-int:walkme-android-sdk:1.3.0"
 }
 ```
 
@@ -53,7 +53,7 @@ dependencies {
 
 ```kotlin
 dependencies {
-    implementation("com.github.WalkMe-int:walkme-android-sdk:1.2.4")
+    implementation("com.github.WalkMe-int:walkme-android-sdk:1.3.0")
 }
 ```
 
@@ -69,12 +69,12 @@ dependencies {
 | `restart()`                    | Re-initialize the SDK with the same options and host as the last successful `start()`. No-op if the SDK is not running (`start()` was not called, or `stop()` already ran).                                                                                                           |
 | `setUserId(userId)`            | Set or clear (`null`) the end-user id for segmentation, analytics, and support.                                                                                                                                                                                                     |
 | `setLanguage(language)`        | Set UI language where your WalkMe configuration supports it (requires the relevant admin option when applicable).                                                                                                                                                                   |
-| `setVariable(key, value)`      | Set a custom variable used by WalkMe rules and segments; pass `null` for `value` to clear.                                                                                                                                                                                          |
+| `setVariable(key, value)`      | Set a custom variable used by WalkMe rules and segments; pass `null` for `value` to clear. Kept in memory for the process only; set again on each app launch.                                                                                                                       |
 | `setEventUserVars(values)`     | Set keys for WalkMe **event** payloads (`userVars`). Pass a `Map<WalkMeEventUserVarsKey, String>`. Each call **merges** into the stored map (same key overwrites). Use `com.walkme.api.WalkMeEventUserVarsKey` (`NAME`, `ROLE`, `TYPE`, `STATUS`, `INFO`).                          |
 | `setTenantId(tenantId)`        | Set or clear (`null`) the tenant ID for the current user (max **50 characters**; longer values are truncated). Attached to analytics events for tenant-based reporting. Call after sign-in when the tenant is known; pass `null` on sign-out. Persisted across app sessions.                                                             |
 | `startItemByID(itemId, deepLink?)` | Start a specific **promotion** by WalkMe `itemId`. If another promotion is already playing, it is stopped first. Optional `deepLink` is a URI string; when non-null and your app can resolve `ACTION_VIEW` for that URI (same package), the SDK opens it before playing the promotion. |
 | `dismissItem()` | Dismiss the **currently presented** WalkMe promotion (not launchers). Does not stop the SDK. No-op if no promotion is active or the SDK is not started. |
-| `sendEvent(name, attributes)`  | Sends a custom tracked event: name identifies the event, attributes is an optional map of key/value data.                                                                                                                                                                           |
+| `sendEvent(name, attributes)`  | Sends a custom tracked event: name identifies the event, attributes is an optional map of key/value data. Note - the event name and attributes should be identical to the event created and published from the Content Manager in the WalkMe Console. |
 | `setItemInfoListener(listener)` | Register a listener for item lifecycle callbacks (`onItemPresented`, `onItemDismissed`, `onItemAction`). Pass `null` to clear. See **Item info callbacks** below.                                                                                                        |
 | `setAnalyticsListener(listener)` | Register a listener for successfully posted analytics events (`onSendAnalyticsEvent`). Pass `null` to clear. See **Analytics callbacks** below. No callbacks when `analyticsEnabled` is `false`. |
 
@@ -90,8 +90,9 @@ dependencies {
 | `dataCenter` | `WalkmeDataCenter` | `prod` | Region — `prod`, `eu`, `us01`, `eu01`, or `Custom("…")`. |
 | `analyticsEnabled` | `Boolean` | `true` | When `false`, the SDK does not send analytics/events to WalkMe (including heartbeat). |
 | `localLogsEnabled` | `Boolean` | `false` | When `true`, SDK debug logs are written to Logcat (`WMLogger`). Use for troubleshooting only. |
+| `selfHostedUrl` | `String?` | `null` | Self-hosted mode (player SDK only — the property is a Kotlin extension defined in `com.walkme.sdk`, so it does not exist in the Power Mode SDK). Base URL on your own server under which the published system export (`selfhosted_<id>_<env>.zip`) was unzipped as a `<systemGuid>/` folder. The SDK loads `<selfHostedUrl>/<systemGuid>/settings.json` and the configuration, content and theme files next to it instead of the WalkMe CDN. Must be a plain http(s) URL with a host and no query/fragment; otherwise the SDK logs an error and does not start (it does not fall back to the CDN, and `start` does not throw). Analytics/backend calls are unaffected. |
 
-`analyticsEnabled` and `localLogsEnabled` are mutable properties (not constructor parameters). Set them on the options instance before calling `start`:
+`analyticsEnabled`, `localLogsEnabled` and `selfHostedUrl` are mutable properties (not constructor parameters). Set them on the options instance before calling `start`. `selfHostedUrl` is a Kotlin extension property — import `com.walkme.sdk.selfHostedUrl` (from Java, call `WalkMeStartOptionsPlayer.setSelfHostedUrl(options, url)`):
 
 ```kotlin
 val options = WalkMeStartOptions(
@@ -101,6 +102,7 @@ val options = WalkMeStartOptions(
 )
 options.analyticsEnabled = true   // default
 options.localLogsEnabled = false  // default; set true for debug builds if needed
+options.selfHostedUrl = null      // default (import com.walkme.sdk.selfHostedUrl); e.g. "https://static.example.com/walkme" → loads https://static.example.com/walkme/<systemGuid>/settings.json
 ```
 
 **Example (Kotlin)**
